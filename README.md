@@ -9,3 +9,5 @@
 - matplotlib
 - seaborn
 - keras == 2.3 
+- Xgboost
+- lightgbm
