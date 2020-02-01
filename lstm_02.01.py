@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-:
 
 
 import random
@@ -110,7 +109,6 @@ X_train, y_train = np.array(X), np.array(y)
 X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, test_size=DATA_SPLIT_PCT, random_state=SEED)
 
 
-# In[ ]:
 
 X_train_y0 = X_train[y_train==0]
 X_train_y1 = X_train[y_train==1]
@@ -119,7 +117,6 @@ X_valid_y0 = X_valid[y_valid==0]
 X_valid_y1 = X_valid[y_valid==1]
 
 
-# In[ ]:
 
 lookback = 1
 
