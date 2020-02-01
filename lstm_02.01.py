@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# In[2]:
+:
 
 
 import random
@@ -38,7 +37,7 @@ from data_loader_v2 import data_loader_v2 # 자체적으로 만든 data loader v
 import joblib # 모델을 저장하고 불러오는 역할
 
 
-# In[2]:
+
 
 
 train_folder = 'data/train/'
@@ -46,7 +45,7 @@ test_folder = 'data/test/'
 train_label_path = 'data/train_label.csv'
 
 
-# In[3]:
+
 
 
 train_list = os.listdir(train_folder)
@@ -54,7 +53,6 @@ test_list = os.listdir(test_folder)
 train_label = pd.read_csv(train_label_path, index_col=0)
 
 
-# In[4]:
 
 
 def data_loader_all_v2(func, files, folder='', train_label=None, event_time=random.randrange(0,16), nrows=60):   
@@ -70,20 +68,9 @@ def data_loader_all_v2(func, files, folder='', train_label=None, event_time=rand
     return combined_df
 
 
-# In[ ]:
-
-
 train = data_loader_all_v2(data_loader_v2, train_list, folder=train_folder, train_label=train_label, event_time=random.randrange(0,16), nrows=60)
 
-
-
-# In[ ]:
-
-
 test = data_loader_all_v2(data_loader_v2, test_list, folder=test_folder, train_label=None, event_time=random.randrange(0, 16), nrows=60)
-
-
-# In[6]:
 
 # 시간 모델을 고려한 lstm autoencoder 사용
 # lstm 모델을 위한 데이터 정제
@@ -94,8 +81,6 @@ test = data_loader_all_v2(data_loader_v2, test_list, folder=test_folder, train_l
 X_input = train.drop(['label'], axis=1).values
 y_input = train['label'].values
 
-
-# In[ ]:
 
 n_features = X_input.shape[1]
 
@@ -114,12 +99,9 @@ def temporalize(X, y, lookback):
 
 
 lookback = 1 # Equivalent to 10 min of past data.
-# Temporalize the data
 
 X, y = temporalize(X = X_input, y = y_input, lookback = lookback)
 
-
-# In[ ]:
 
 SEED = 123 #used to help randomly select the data points
 DATA_SPLIT_PCT = 0.2
@@ -153,7 +135,6 @@ input_test = test.values
 X_test = np.array(input_test)
 X_test = X_test.reshape(X_test.shape[0], lookback, n_features)
 
-# In[ ]:
 
 # 3D array를 2D로 변환하는 함수 생성
 def flatten(X):
@@ -174,9 +155,6 @@ def scale(X, scaler):
     return X
 
 
-# In[ ]:
-
-
 scaler = StandardScaler().fit(flatten(X_train_y0))
 
 
@@ -191,7 +169,6 @@ X_valid_y0_scaled = scale(X_valid_y0, scaler)
 X_test_scaled = scale(X_test, scaler)
 
 
-# In[ ]:
 
 
 timesteps =  X_train_y0_scaled.shape[1] 
@@ -202,7 +179,6 @@ batch_size = 64
 lr = 0.0001
 
 
-# In[ ]:
 
 lstm_autoencoder = Sequential()
 
@@ -228,7 +204,6 @@ lstm_autoencoder.add(TimeDistributed(Dense(n_features)))
 lstm_autoencoder.summary()
 
 
-# In[ ]:
 # 방향성과 stepsize 모두를 고려하기 위해 여러 경사하강법 중 Adam 사용
 # - RMSprop의 특징인 gradient의 제곱을 지수평균한 값을 사용
 # - Momentum의 특징으로 gradient를 제곱하지 않은 값을 사용하여 지수평균을 구하고 수식에 활용함
@@ -243,8 +218,6 @@ lstm_autoencoder_history = lstm_autoencoder.fit(X_train_y0_scaled, X_train_y0_sc
 
 
 
-
-# In[ ]:
 
 
 train_x_predictions = lstm_autoencoder.predict(X_train_scaled)
@@ -261,7 +234,6 @@ for name, group in groups:
             label= "Break" if name == 1 else "Normal")
 
 
-# In[ ]:
 
 
 valid_x_predictions = lstm_autoencoder.predict(X_valid_scaled)
@@ -273,23 +245,14 @@ error_df = pd.DataFrame({'Reconstruction_error': mse,
 precision_rt, recall_rt, threshold_rt = precision_recall_curve(error_df.True_class, error_df.Reconstruction_error)
 
 
-# In[ ]:
-
 # 예측 
 test_x_predictions = lstm_autoencoder.predict(X_test_scaled)
 mse = np.mean(np.power(flatten(X_test_scaled) - flatten(test_x_predictions), 2), axis=1)
 
 
-# In[ ]:
-
 
 intermediate_layer = Model(inputs=lstm_autoencoder.inputs, outputs=lstm_autoencoder.layers[1].output)
 # time_dist_layer = Model(inputs=encoder_decoder.inputs, outputs=encoder_decoder.layers[5].output)
 intermediate_output = intermediate_layer.predict(X_train_y0_scaled)
-
-
-# In[ ]:
-
-
 intermediate_output
 
