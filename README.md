@@ -68,8 +68,7 @@
        
   4. 정규화 및 차원축소
        - 정규화 적용
-           - 일반적인 정규화 모델 StandardScaler적용
-           - 이상치에 영향을 최소하하는 RobustScaler적용
+           - 정규화 모델 StandardScaler적용
        - PCA 적용 결과, 
          차원 축소 전후의 동일 모델 중 적용 전의 logloss값이 더 낮음. 
        
