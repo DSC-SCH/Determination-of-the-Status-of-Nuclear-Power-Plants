@@ -96,15 +96,7 @@ hard_vote.fit(train_reg_x, y_train)
 soft_vote  = VotingClassifier(models, voting='soft')
 soft_vote.fit(train_reg_x, y_train)
 
-pred = hard_vote.predict_proba(test_reg_x)
 pred_soft = soft_vote.predict_proba(test_reg_x)
-
-submission = pd.DataFrame(data=pred)
-submission.index = test.index
-submission.index.name = 'id'
-submission = submission.sort_index()
-submission = submission.groupby('id').mean()
-submission.to_csv('submission_hard.csv', index=True) 
 
 submission = pd.DataFrame(data=pred_soft)
 submission.index = test.index
