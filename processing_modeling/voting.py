@@ -75,22 +75,8 @@ from sklearn.ensemble import VotingClassifier
 # ensemble 할 model 정의
 models = [
     ('ada', AdaBoostClassifier()),
-    ('bc', BaggingClassifier()),
-    ('etc',ExtraTreesClassifier()),
-    ('gbc', GradientBoostingClassifier()),
     ('rfc', RandomForestClassifier()),
-    ('knn', KNeighborsClassifier()),
-    ('svc', SVC(probability=True)),
-    ('xgb', XGBClassifier()),
-    ('lgbm', LGBMClassifier()),
-    ('dtc', DecisionTreeClassifier()),
-    ('lr', LogisticRegressionCV()),
-    ('ridge', RidgeClassifier()),
 ]
-
-# hard vote
-hard_vote  = VotingClassifier(models, voting='hard')
-hard_vote.fit(train_reg_x, y_train)
 
 # soft vote
 soft_vote  = VotingClassifier(models, voting='soft')
