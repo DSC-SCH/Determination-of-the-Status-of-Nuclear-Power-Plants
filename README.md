@@ -82,8 +82,6 @@
        - CNN 적용
        - voting 적용
        
-       -> Xgboost에서 파라미터를 튜닝한 결과가 가장 좋음.
-
   6. 모델 재생성
 
 구체적인 설명: https://www.notion.so/ssung99/c3db6f5074844f4c849d17831b72af5c
