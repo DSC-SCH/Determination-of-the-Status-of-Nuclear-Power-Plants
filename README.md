@@ -70,6 +70,7 @@
   4. 정규화 및 차원축소
        - 정규화 적용
            - 정규화 모델 StandardScaler적용
+           - RobustScaler 적용
        - PCA 적용 결과, 
          차원 축소 전후의 동일 모델 중 적용 전의 logloss값이 더 낮음. 
 
@@ -85,4 +86,4 @@
 
   6. 모델 재생성
 
-구체적인 설명: https://www.notion.so/ssung0123/dacon-55e3d3588f1449ef9d389c08799563e1
+구체적인 설명: https://www.notion.so/ssung99/c3db6f5074844f4c849d17831b72af5c
